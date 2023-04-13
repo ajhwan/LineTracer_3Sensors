@@ -90,6 +90,8 @@ void backward() {
   analogWrite(motor_B2, 255);
 }
 
+
+
 void stop() {
   analogWrite(motor_A1, LOW);
   analogWrite(motor_A2, LOW);
