@@ -5,6 +5,7 @@ const int motor_B2 = 10;
 const int IR_R = A1;
 const int IR_M = A3;
 const int IR_L = A5;
+const int led = 11;
 int IR_L_data;
 int IR_M_data;
 int IR_R_data;
@@ -15,6 +16,7 @@ void setup() {
   pinMode(motor_A2, OUTPUT);
   pinMode(motor_B1, OUTPUT);
   pinMode(motor_B2, OUTPUT);
+  pinMode(led, OUTPUT);
   pinMode(IR_L, INPUT);
   pinMode(IR_M, INPUT);
   pinMode(IR_R, INPUT);
@@ -24,7 +26,6 @@ void setup() {
 
 
 void loop() {
-  //IR 센서 값을 읽어 출력해주는 코드
   IR_L_data = digitalRead(IR_L);
   IR_M_data = digitalRead(IR_M);
   IR_R_data = digitalRead(IR_R);
@@ -37,25 +38,29 @@ void loop() {
   if (IR_L_data == 0 and IR_M_data == 1 and IR_R_data == 0) {
     Serial.println("직진");
     forward();
+    digitalWrite(led, LOW);
   }
   else if (IR_L_data == 1 and IR_M_data == 0 and IR_R_data == 0) {
     Serial.println("좌회전 ");
     left();
+    digitalWrite(led, HIGH);
   }
   else if (IR_L_data == 0 and IR_M_data == 0 and IR_R_data == 1) {
     Serial.println("우회전");
+    digitalWrite(led, HIGH);
     right();
   }
   else if (IR_L_data == 1  and IR_R_data == 1) {
     Serial.println("정지");
     stop();
+    digitalWrite(led, LOW);
   }
 }
 
 
 void right () {
   //우
-  analogWrite(motor_A1, 255);
+  analogWrite(motor_A1, 50);
   analogWrite(motor_A2, LOW);
   analogWrite(motor_B1, LOW);
   analogWrite(motor_B2, LOW);
